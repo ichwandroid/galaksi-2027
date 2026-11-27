@@ -16,11 +16,24 @@ Route::get('/', function () {
         ? EventSetting::current()
         : null;
 
+    $resolveUrl = static function (?string $configured, string $fallback): string {
+        if (! $configured) {
+            return $fallback;
+        }
+
+        $host = parse_url($configured, PHP_URL_HOST);
+        if (in_array($host, ['localhost', '127.0.0.1'], true) && ! in_array(request()->getHost(), ['localhost', '127.0.0.1'], true)) {
+            return $fallback;
+        }
+
+        return $configured;
+    };
+
     return view('galaksi', [
         'year' => $setting?->event_year ?? '2027',
-        'ticketFormUrl' => $setting?->ticket_form_url ?: url('/tiket'),
-        'tenantUrl' => $setting?->tenant_url ?: url('/tenant'),
-        'sponsorUrl' => $setting?->sponsor_url ?: url('/sponsor'),
+        'ticketFormUrl' => $resolveUrl($setting?->ticket_form_url, '/tiket'),
+        'tenantUrl' => $resolveUrl($setting?->tenant_url, '/tenant'),
+        'sponsorUrl' => $resolveUrl($setting?->sponsor_url, '/sponsor'),
         'socialLinks' => [
             ['platform' => 'Instagram', 'handle' => '@sekolahalamanaksaleh', 'href' => 'https://instagram.com/sekolahalamanaksaleh'],
             ['platform' => 'YouTube', 'handle' => 'Anak Saleh', 'href' => 'https://youtube.com/@sekolahalamanaksaleh'],

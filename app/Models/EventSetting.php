@@ -28,9 +28,9 @@ class EventSetting extends Model
             'open_gate_label' => '07.00 WIB',
             'venue_name' => 'Graha Cakrawala',
             'venue_city' => 'Universitas Negeri Malang',
-            'ticket_form_url' => url('/tiket'),
-            'tenant_url' => url('/tenant'),
-            'sponsor_url' => url('/sponsor'),
+            'ticket_form_url' => '/tiket',
+            'tenant_url' => '/tenant',
+            'sponsor_url' => '/sponsor',
         ]);
     }
 }
