@@ -1,0 +1,813 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #031c26;
+  color: #b6b095;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.galaksi-shell {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: clip;
+  background-color: #031c26;
+}
+
+.galaksi-bg-wrap {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 1;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.galaksi-bg-wrap.is-hidden {
+  opacity: 0;
+}
+
+.galaksi-bg-canvas {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.galaksi-main {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.galaksi-root {
+  position: relative;
+  width: 100%;
+  height: calc(100svh * 8.2);
+  background: transparent;
+}
+
+.lys-stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  container-type: size;
+  container-name: lys;
+  color: #b6b095;
+  --lys-red: #e3131b;
+  --lys-bone: #b6b095;
+}
+
+.lys-vignette {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(182, 176, 149, 0.08) 100%);
+}
+
+.lys-glow {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgba(242, 194, 78, 0.24), rgba(24, 96, 158, 0.12) 48%, transparent 100%);
+  will-change: transform;
+}
+
+.lys-gl-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.lys-grain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.09;
+  mix-blend-mode: screen;
+}
+
+/* Section entrance layer (smooth fade-in + slide-up matching Framer Motion curve) */
+.lys-scene-panel {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.lys-scene-panel.is-active {
+  z-index: 25;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.78s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.78s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lys-display {
+  font-family: "Playfair Display", "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-weight: 500;
+}
+
+.lys-sans {
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
+}
+
+.lys-hidden-init {
+  opacity: 0;
+}
+
+/* Cover */
+.lys-cover-top {
+  position: absolute;
+  left: 5cqw;
+  right: 5cqw;
+  top: 5cqh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.lys-cover-heading {
+  font-weight: 600;
+  font-size: clamp(14px, 2.35cqw, 34px);
+  line-height: 1.02;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.lys-cover-tagline {
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(12px, 1.85cqw, 26px);
+  line-height: 1.08;
+  letter-spacing: 0.01em;
+  text-align: right;
+}
+
+.lys-cover-bottom {
+  position: absolute;
+  left: 5cqw;
+  bottom: 5cqh;
+  display: flex;
+  align-items: flex-end;
+}
+
+.lys-saans-cover-logo {
+  display: block;
+  height: clamp(28px, 4.6cqh, 50px);
+  width: auto;
+  object-fit: contain;
+  opacity: 0.94;
+}
+
+/* Sections 02 - 04 */
+.lys-sec2 {
+  position: absolute;
+  left: 6cqw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(48cqw, 630px);
+}
+
+.lys-eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.6cqh;
+}
+
+.lys-sec2-eyebrow {
+  color: var(--lys-white);
+  font-size: 9.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lys-eyebrow-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(182, 176, 149, 0.21);
+  transform-origin: left;
+}
+
+.lys-sec2 h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(24px, 3.1cqw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.lys-sec2 h2 em {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.lys-sec2-line {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(182, 176, 149, 0.46), transparent);
+  transform-origin: left;
+  margin: 2.2cqh 0;
+}
+
+.lys-sec2-lead {
+  margin: 0;
+  font-size: clamp(14.5px, 1.5cqw, 21.5px);
+  line-height: 1.54;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+}
+
+.lys-sec2-lead--compact {
+  font-size: clamp(14px, 1.44cqw, 20.5px);
+}
+
+.lys-sec2-sub {
+  margin: 1.8cqh 0 0;
+  padding-left: 1.8cqw;
+  font-size: clamp(12.5px, 1.15cqw, 16px);
+  line-height: 1.66;
+  font-weight: 400;
+  opacity: 0.78;
+}
+
+.lys-sec2-keywords {
+  font-size: 8.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  margin-top: 2cqh;
+  opacity: 0.68;
+}
+
+.lys-scene-caption {
+  position: absolute;
+  left: 5cqw;
+  bottom: 4cqh;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.lys-crimson {
+  color: var(--lys-white);
+}
+
+/* Section 05 - Jadwal */
+.lys-jadwal-wrap {
+  position: absolute;
+  left: 6cqw;
+  right: 6cqw;
+  top: 7.5cqh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.lys-jadwal-top {
+  display: flex;
+  width: 100%;
+  max-width: min(88cqw, 860px);
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2.2cqh;
+}
+
+.lys-jadwal-meta {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lys-jadwal-meta--muted {
+  opacity: 0.78;
+}
+
+.lys-jadwal-meta--crimson {
+  color: var(--lys-white);
+}
+
+.lys-jadwal-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(182, 176, 149, 0.22);
+  transform-origin: center;
+}
+
+.lys-jadwal-day {
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(16px, 2cqw, 28px);
+  line-height: 1.1;
+  opacity: 0.88;
+  margin-bottom: 0.4cqh;
+}
+
+.lys-jadwal-date {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(26px, 5.6cqw, 82px);
+  line-height: 0.96;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.lys-jadwal-gate-row {
+  display: flex;
+  width: 100%;
+  max-width: min(82cqw, 560px);
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.8cqh 0;
+}
+
+.lys-jadwal-gate-line-left {
+  flex: 1;
+  height: 1px;
+  background: rgba(182, 176, 149, 0.27);
+  transform-origin: right;
+}
+
+.lys-jadwal-gate-line-right {
+  flex: 1;
+  height: 1px;
+  background: rgba(182, 176, 149, 0.27);
+  transform-origin: left;
+}
+
+.lys-jadwal-gate {
+  color: var(--lys-white);
+  font-size: clamp(9px, 1.05cqw, 13px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lys-jadwal-venue {
+  font-weight: 600;
+  font-size: clamp(17px, 2.3cqw, 33px);
+  line-height: 1.12;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.lys-jadwal-uni {
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(14px, 1.65cqw, 23px);
+  line-height: 1.25;
+  opacity: 0.86;
+  margin-top: 0.35cqh;
+}
+
+/* Section 06 - Tiketing */
+.lys-bloom {
+  position: absolute;
+  left: 8.5cqw;
+  top: 30cqh;
+  font-size: min(8.2cqw, 11.5cqh);
+  line-height: 0.86;
+  pointer-events: none;
+}
+
+.lys-scene-panel.is-active .lys-bloom {
+  pointer-events: auto;
+}
+
+.lys-bloom-line {
+  white-space: nowrap;
+}
+
+.lys-bloom-cta {
+  margin-top: 3.4cqh;
+}
+
+.lys-hint-text {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+  margin-top: 10px;
+}
+
+/* Architectural CTA button */
+.lys-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid rgba(182, 176, 149, 0.55);
+  background: rgba(5, 5, 5, 0.45);
+  color: inherit;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: none;
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease;
+}
+
+.lys-scene-panel.is-active .lys-btn {
+  pointer-events: auto;
+}
+
+.lys-btn:hover,
+.lys-btn:focus-visible,
+.lys-btn[data-active="true"] {
+  background: var(--lys-red);
+  border-color: var(--lys-red);
+  color: #ffffff;
+}
+
+.lys-btn-arr {
+  color: var(--lys-white);
+  transition:
+    color 0.22s ease,
+    transform 0.22s ease;
+}
+
+.lys-btn:hover .lys-btn-arr,
+.lys-btn:focus-visible .lys-btn-arr,
+.lys-btn[data-active="true"] .lys-btn-arr {
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+/* Section 07 - Kontak & Footer */
+.lys-fin {
+  position: absolute;
+  left: 4cqw;
+  right: 4cqw;
+  top: 50cqh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.lys-fin-left {
+  position: relative;
+  text-align: center;
+  pointer-events: none;
+}
+
+.lys-fin-right {
+  position: relative;
+  text-align: left;
+  pointer-events: none;
+}
+
+.lys-scene-panel.is-active .lys-fin-left,
+.lys-scene-panel.is-active .lys-fin-right,
+.lys-scene-panel.is-active .lys-footer {
+  pointer-events: auto;
+}
+
+.lys-fin-title {
+  font-size: min(9.5cqw, 12.5cqh);
+  line-height: 1;
+}
+
+.lys-social-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.8cqh;
+}
+
+.lys-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 42px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--lys-bone);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease;
+}
+
+.lys-social-btn:hover,
+.lys-social-btn:focus-visible {
+  opacity: 0.8;
+}
+
+.lys-social-btn.is-copied {
+  color: var(--lys-red);
+}
+
+.lys-fin-school {
+  font-size: 10px;
+  margin-top: 1.2cqh;
+  opacity: 0.7;
+}
+
+.lys-fin-eyebrow {
+  font-size: clamp(10px, 1cqw, 13px);
+}
+
+.lys-fin-sub {
+  font-size: min(6.4cqw, 8.8cqh);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.lys-fin-sub a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.lys-fin-actions-wrap {
+  margin-top: 1.6cqh;
+}
+
+.lys-fin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.lys-fin-hint {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  margin-top: 8px;
+  text-align: right;
+}
+
+.lys-footer {
+  position: absolute;
+  left: 5cqw;
+  right: 5cqw;
+  bottom: 4.5cqh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: clamp(9px, 1.05cqw, 13px);
+  letter-spacing: 0.18em;
+  color: var(--lys-bone);
+  pointer-events: none;
+}
+
+.lys-footer a,
+.lys-footer span {
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.lys-footer-logo-img {
+  display: block;
+  height: clamp(20px, 3cqh, 34px);
+  width: auto;
+  object-fit: contain;
+  flex: none;
+  opacity: 0.92;
+}
+
+/* Right Navigation */
+.lys-nav {
+  position: absolute;
+  z-index: 30;
+  right: 2cqw;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.lys-nav button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  background: none;
+  border: 0;
+  padding: 5px 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.lys-nav .lys-tick {
+  display: block;
+  height: 1px;
+  width: 14px;
+  background: currentColor;
+  opacity: 0.45;
+  transition:
+    width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.3s,
+    background-color 0.3s;
+}
+
+.lys-nav .lys-lab {
+  opacity: 0;
+  transform: translateX(6px);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+}
+
+.lys-nav button:hover .lys-lab,
+.lys-nav button:focus-visible .lys-lab {
+  opacity: 1;
+  transform: none;
+}
+
+.lys-nav button[aria-current="step"] .lys-tick {
+  width: 34px;
+  opacity: 1;
+  background: var(--lys-red);
+}
+
+/* Portrait & Mobile Responsive Rules */
+@container lys (orientation: portrait) {
+  .lys-sec2 {
+    left: 6cqw !important;
+    right: 6cqw !important;
+    width: auto !important;
+    top: 33cqh !important;
+    bottom: 9cqh !important;
+    transform: none !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .lys-sec2 h2 {
+    font-size: clamp(20px, 5.8cqw, 34px) !important;
+  }
+
+  .lys-sec2-lead {
+    font-size: clamp(12.5px, 3.3cqw, 16px) !important;
+    line-height: 1.48 !important;
+  }
+
+  .lys-sec2-sub {
+    font-size: clamp(11.5px, 2.95cqw, 14px) !important;
+    line-height: 1.52 !important;
+    margin-top: 1.2cqh !important;
+    padding-left: 3cqw !important;
+  }
+
+  .lys-sec2-line {
+    margin: 1.4cqh 0 !important;
+  }
+
+  .lys-sec2-eyebrow {
+    white-space: normal !important;
+    letter-spacing: 0.2em !important;
+    font-size: 8.5px !important;
+  }
+
+  .lys-bloom {
+    left: 6cqw !important;
+    right: 6cqw !important;
+    top: auto !important;
+    bottom: 11cqh !important;
+    font-size: clamp(36px, 11.2cqw, 68px) !important;
+  }
+
+  .lys-fin {
+    left: 5cqw !important;
+    right: 5cqw !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 2.8cqh !important;
+    top: 29cqh !important;
+    bottom: 14cqh !important;
+  }
+
+  .lys-fin-title {
+    font-size: clamp(30px, 9.6cqw, 52px) !important;
+  }
+
+  .lys-fin-sub {
+    font-size: clamp(26px, 8cqw, 44px) !important;
+  }
+
+  .lys-fin-right {
+    text-align: center;
+  }
+
+  .lys-fin-actions {
+    justify-content: center;
+  }
+
+  .lys-fin-hint {
+    text-align: center;
+  }
+}
+
+@container lys (max-width: 720px) {
+  .lys-nav {
+    right: 1.4cqw !important;
+  }
+
+  .lys-nav .lys-lab {
+    display: none !important;
+  }
+
+  .lys-nav .lys-tick {
+    width: 8px;
+  }
+
+  .lys-nav button[aria-current="step"] .lys-tick {
+    width: 18px;
+  }
+
+  .lys-jadwal-wrap {
+    top: 16cqh;
+  }
+
+  .lys-jadwal-meta {
+    letter-spacing: 0.16em !important;
+    font-size: 8px !important;
+  }
+
+  .lys-jadwal-gate {
+    letter-spacing: 0.18em !important;
+    font-size: 9px !important;
+  }
+
+  .lys-footer {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 6px 14px !important;
+    bottom: 2.8cqh !important;
+    font-size: 8.5px !important;
+    letter-spacing: 0.12em !important;
+    text-align: center;
+  }
+
+  .lys-footer-logo {
+    order: -1;
+    flex-basis: 100% !important;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lys-scene-panel,
+  .lys-scene-panel.is-active {
+    transform: none !important;
+    transition: opacity 0.01s linear !important;
+  }
+}
