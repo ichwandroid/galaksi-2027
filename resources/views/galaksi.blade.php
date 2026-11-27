@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ $title ?? 'GALAKSI 2027 — Sekolah Alam Anak Saleh' }}</title>
+  <link rel="icon" type="image/png" href="{{ asset('assets/aistudio/logo_GALAKSI_NEW_c6e4942a.png') }}">
+  <link rel="apple-touch-icon" href="{{ asset('assets/aistudio/logo_GALAKSI_NEW_c6e4942a.png') }}">
   <meta name="description" content="{{ $metaDescription ?? 'Gelaran Aktualisasi Talenta Seni dan Prestasi Sekolah Alam Anak Saleh — Sabtu, 16 Januari 2027 di Graha Cakrawala Universitas Negeri Malang.' }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
