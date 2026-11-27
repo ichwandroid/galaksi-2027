@@ -365,8 +365,8 @@ select.form-input option {
 }
 
 .lys-btn-ghost:hover {
-  background: rgba(182, 176, 149, 0.12);
-  border-color: #b6b095;
+  background: #13e347;
+  border-color: #13e347;
   color: #ffffff;
 }
 
@@ -438,7 +438,118 @@ select.form-input option {
   .ticket-panel, .receipt-card {
     padding: 24px 18px;
   }
-  .form-row-2, .receipt-actions {
+  .form-row-2, .receipt-actions, .bank-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Tenant / UMKM Page Helpers */
+.umkm-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(230, 225, 207, 0.9);
+}
+
+.umkm-list strong {
+  color: #ffffff;
+}
+
+.umkm-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.umkm-step {
+  border: 1px solid rgba(182, 176, 149, 0.2);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 18px 20px;
+}
+
+.umkm-step-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.umkm-step-num {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e6e1cf;
+  color: #e6e1cf;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.umkm-step-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e6e1cf;
+}
+
+.bank-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.bank-card {
+  border: 1px solid rgba(182, 176, 149, 0.2);
+  background: rgba(3, 28, 38, 0.65);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.bank-card > div {
+  min-width: 0;
+}
+
+.bank-name {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e6e1cf;
+  font-weight: 700;
+}
+
+.bank-num {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  margin-top: 2px;
+  word-break: break-all;
+}
+
+.bank-copy-btn {
+  flex-shrink: 0;
+  border: 1px solid rgba(182, 176, 149, 0.3);
+  background: transparent;
+  color: #b6b095;
+  padding: 6px 12px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.bank-copy-btn:hover {
+  border-color: #ffffff;
+  color: #ffffff;
 }

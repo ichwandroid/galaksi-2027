@@ -347,7 +347,7 @@
                     data-partner-trigger="tenant"
                     class="lys-btn lys-sans"
                   >
-                    <span>Info Tenant</span>
+                    <span>Info UMKM</span>
                     <span class="lys-btn-arr" aria-hidden="true">→</span>
                   </a>
                   <a

@@ -45,6 +45,21 @@ Route::get('/', function () {
 Route::get('/tiket', [TicketRegistrationController::class, 'create'])->name('tickets.create');
 Route::post('/tiket', [TicketRegistrationController::class, 'store'])->name('tickets.store');
 Route::get('/tiket/{orderCode}', [TicketRegistrationController::class, 'show'])->name('tickets.show');
+Route::get('/tenant', function () {
+    $setting = Schema::hasTable('event_settings')
+        ? EventSetting::current()
+        : null;
+
+    return view('tenant', [
+        'setting' => $setting ?? new EventSetting([
+            'event_year' => '2027',
+            'event_date_label' => 'Sabtu, 16 Januari 2027',
+            'open_gate_label' => '07.00 WIB',
+            'venue_name' => 'Graha Cakrawala',
+            'venue_city' => 'Universitas Negeri Malang',
+        ]),
+    ]);
+})->name('tenant.info');
 
 Route::prefix('admin')->name('admin.')->group(function (): void {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

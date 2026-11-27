@@ -30,7 +30,7 @@
       </a>
 
       <div class="ticket-header-brand">
-        <span class="ticket-header-meta lys-sans">Sekolah Alam Anak Saleh · {{ $setting->event_year }}</span>
+        <span class="ticket-header-meta lys-sans"><img style="width: auto;" src="{{ asset('assets/aistudio/7b00066b-1521-4140-86aa-1cafbd042cf7_aff1575e.png') }}" alt=""></span>
       </div>
     </header>
 

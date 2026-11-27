@@ -46,7 +46,7 @@
 
       <div class="form-grid">
         <div class="form-group">
-          <label for="tenant_url">URL Info Tenant</label>
+          <label for="tenant_url">URL Info UMKM</label>
           <input id="tenant_url" type="text" name="tenant_url" value="{{ old('tenant_url', $setting->tenant_url) }}" class="form-control" placeholder="https://...">
         </div>
         <div class="form-group">

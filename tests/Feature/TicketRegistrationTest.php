@@ -43,4 +43,13 @@ class TicketRegistrationTest extends TestCase
             ->assertSee('Dewi Anggraini')
             ->assertSee('450.000');
     }
+
+    public function test_tenant_umkm_page_renders(): void
+    {
+        $this->get('/tenant')
+            ->assertOk()
+            ->assertSee('Tenant UMKM')
+            ->assertSee('388788781')
+            ->assertSee('Danny');
+    }
 }
