@@ -7,16 +7,24 @@
   <link rel="icon" type="image/png" href="{{ asset('assets/aistudio/logo_GALAKSI_NEW_c6e4942a.png') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
   <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
 <div class="admin-shell">
+  <div class="galaksi-vignette" aria-hidden="true"></div>
+  <svg aria-hidden="true" class="galaksi-grain" width="100%" height="100%">
+    <filter id="lys-grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0" />
+    </filter>
+    <rect width="100%" height="100%" filter="url(#lys-grain)" />
+  </svg>
   <div class="sidebar-backdrop" data-admin-backdrop></div>
 
   <aside class="admin-sidebar" data-admin-sidebar>
     <div class="sidebar-brand">
-      <div class="sidebar-brand-mark">G</div>
+      <img src="{{ asset('assets/aistudio/logo_GALAKSI_NEW_c6e4942a.png') }}" alt="GALAKSI 2027" class="sidebar-brand-logo">
       <div>
         <div class="sidebar-brand-title">GALAKSI 2027</div>
         <div class="sidebar-brand-sub">Admin Panel</div>
@@ -55,7 +63,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <a href="{{ route('home') }}" target="_blank" rel="noreferrer" class="sidebar-link">
+      <a href="{{ route('home') }}" class="sidebar-link" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         <span>Lihat Landing Page</span>
       </a>
