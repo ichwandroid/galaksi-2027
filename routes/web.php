@@ -22,7 +22,7 @@ Route::get('/', function () {
         }
 
         $host = parse_url($configured, PHP_URL_HOST);
-        if (in_array($host, ['localhost', '127.0.0.1'], true) && ! in_array(request()->getHost(), ['localhost', '127.0.0.1'], true)) {
+        if (in_array($host, ['localhost', '127.0.0.1'], true)) {
             return $fallback;
         }
 
